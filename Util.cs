@@ -71,7 +71,7 @@ namespace RSATwo
             // Witness loop
             for (int i = 0; i < k; i++)
             {
-                BigInteger a = RandomInRange(2, source - 2);
+                BigInteger a = GetRandomInRange(2, source - 2);
                 BigInteger x = BigInteger.ModPow(a, d, source);
 
                 if (x == 1 || x == source - 1) continue;
@@ -90,7 +90,7 @@ namespace RSATwo
         /// <summary>
         /// Get a Random Number between min and max.
         /// </summary>
-        private static BigInteger RandomInRange(BigInteger min, BigInteger max)
+        private static BigInteger GetRandomInRange(BigInteger min, BigInteger max)
         {
             byte[] data = max.ToByteArray();
             BigInteger res;

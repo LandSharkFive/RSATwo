@@ -7,25 +7,24 @@ namespace RSATwo
     {
         static void Main(string[] args)
         {
-            //int choice = Convert.ToInt32(args[1]);
-            int choice = 4;
+            //int choice = 1;
+            int choice = Convert.ToInt32(Console.ReadLine());
             switch (choice)
             {
                 case 1:
-                    Console.WriteLine("Easy Demo");
                     EasyDemoOne();
                     break;
                 case 2:
-                    Console.WriteLine("Hard Demo One");
                     HardDemoOne();
                     break;
                 case 3:
-                    Console.WriteLine("Hard Demo Two");
                     HardDemoTwo();
                     break;
                 case 4:
-                    Console.WriteLine("Hard Demo Three");
                     HardDemoThree();
+                    break;
+                case 5:
+                    RunAllDemos();
                     break;
             }
         }
@@ -36,6 +35,7 @@ namespace RSATwo
         /// </summary>
         public static void EasyDemoOne()
         {
+            Console.WriteLine("Easy Demo");
             string message = "Hello World";
             BigInteger p = BigInteger.Parse("54401");
             BigInteger q = BigInteger.Parse("67943");
@@ -78,15 +78,18 @@ namespace RSATwo
 
             string result = Encoding.UTF8.GetString(decryptedBytes.ToArray());
             Console.WriteLine($"\nDECRYPTED:\n{result}");
+            Console.WriteLine("\n");
         }
 
-  
+
 
         /// <summary>
         /// Two 512-digit primes. Strong. Get the private key.
         /// </summary>
         public static void HardDemoOne()
         {
+            Console.WriteLine("Hard Demo One");
+
             // 512-bit Prime P
             BigInteger p = BigInteger.Parse("9886311149454848507850893527230191244458319690184285189708709149021543166567119095692695272102143093952701199341644754593175110515152528148972580796850401");
 
@@ -108,6 +111,7 @@ namespace RSATwo
 
             Console.WriteLine($"Modulus N is {n.ToString().Length} digits long.");
             Console.WriteLine($"Calculated Private Key D: {d.ToString().Substring(0, 20)}...");
+            Console.WriteLine("\n");
         }
 
 
@@ -116,6 +120,7 @@ namespace RSATwo
         /// </summary>
         private static void HardDemoTwo()
         {
+            Console.WriteLine("Hard Demo Two");
             Console.WriteLine("Generating 512-bit primes...");
 
             BigInteger p = Util.GeneratePrime(512);
@@ -139,16 +144,17 @@ namespace RSATwo
             Console.WriteLine($"Generated Q: {q.ToString().Substring(0, 15)}...");
             Console.WriteLine($"Modulus Size: {n.ToByteArray().Length * 8} bits");
             Console.WriteLine($"Calculated D instantly using EEA.");
-
+            Console.WriteLine("\n");
         }
 
 
         /// <summary>
         /// Generate two 512-digit primes. Strong. Encrypt and Decrypt a string.
         /// </summary>
-        /// <exception cref="Exception"></exception>
         public static void HardDemoThree()
         {
+            Console.WriteLine("Hard Demo Three");
+
             // 1. Setup Keys (1024-bit total)
             BigInteger p = Util.GeneratePrime(512);
             BigInteger q = Util.GeneratePrime(512);
@@ -161,7 +167,10 @@ namespace RSATwo
             string message = "RSA is powerful!";
             BigInteger m = new BigInteger(Encoding.UTF8.GetBytes(message), true, true);
 
-            if (m >= n) throw new Exception("Message too long for key size.");
+            if (m >= n)
+            {
+                Console.WriteLine("Message too long for key size.");
+            }
 
             // 3. Encrypt: C = M^e mod N
             BigInteger c = BigInteger.ModPow(m, e, n);
@@ -172,6 +181,15 @@ namespace RSATwo
             string result = Encoding.UTF8.GetString(decryptedM.ToByteArray(true, true));
 
             Console.WriteLine($"Decrypted: {result}");
+            Console.WriteLine("\n");
+        }
+
+        private static void RunAllDemos()
+        {
+            EasyDemoOne();
+            HardDemoOne();
+            HardDemoTwo();
+            HardDemoThree();
         }
     }
 }
